@@ -463,7 +463,6 @@ module.exports = function(webpackEnv) {
             {
               test: lessRegex,
               exclude: lessModuleRegex,
-              include:/node_modules/,
               use: getStyleLoaders(
                 {
                   importLoaders: 2,
