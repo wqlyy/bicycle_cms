@@ -112,7 +112,6 @@ module.exports = function(webpackEnv) {
       },
     ].filter(Boolean);
     if (preProcessor) {
-      console.log(preProcessor)
       loaders.push({
         loader: require.resolve(preProcessor),
         options: {
@@ -347,6 +346,11 @@ module.exports = function(webpackEnv) {
                 ),
                 
                 plugins: [
+                  ["import", {
+                    libraryName: 'antd',
+                    libraryDirectory: 'es',
+                    style: 'css'
+                  }],
                   [
                     require.resolve('babel-plugin-named-asset-import'),
                     {
@@ -458,10 +462,10 @@ module.exports = function(webpackEnv) {
             },
             {
               test: lessRegex,
-              exclude: /node_modules/,
+              exclude: lessModuleRegex,
               use: getStyleLoaders(
                 {
-                  importLoaders: 3,
+                  importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
                 },
                 'less-loader'
@@ -478,7 +482,7 @@ module.exports = function(webpackEnv) {
               test: lessModuleRegex,
               use: getStyleLoaders(
                 {
-                  importLoaders: 3,
+                  importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
                   modules: true,
                   getLocalIdent: getCSSModuleLocalIdent,
