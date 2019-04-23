@@ -1,6 +1,6 @@
 import React from 'react'
 import Child from './child'
-
+import style from './life.module.less'
 export default class Life extends React.Component{
   constructor(props){
     super(props);
@@ -24,14 +24,8 @@ export default class Life extends React.Component{
     })
   }
   render(){
-    const style={
-      width:'500px',
-      margin:'0 auto',
-      padding:'50px',
-      border:'1px solid #ccc'
-    }
     return (
-    <div style={style}>
+    <div className={style.container}>
       <p>React生命周期</p>
       <button onClick={this.handleAdd}>点击一下</button>
       <button onClick={this.handleClick.bind(this)}>点击一下</button>
