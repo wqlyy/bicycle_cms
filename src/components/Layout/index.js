@@ -5,6 +5,8 @@ import Header from '../Header'
 import Footer from '../Footer'
 import LeftNav from '../LeftNav'
 
+import Home from '../../pages/home'
+
 import '../../styles/common.less'
 
 export default class Layout extends React.Component{
@@ -18,7 +20,7 @@ export default class Layout extends React.Component{
           <Header/>
           <Row className='content'>
           {/* {this.props.children} */}
-          内容区域
+            <Home/>
           </Row>
           <Footer/>
         </Col>

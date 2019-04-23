@@ -1,3 +1,5 @@
+@import '../styles/default.less';
+
 .container{
   display: flex;
   .left_nav{
@@ -7,7 +9,8 @@
   }
   .main{
     flex: 1;
-    height:calc(100vh)
+    height: calc(100vh);
+    background-color: @colorL;
   }
   .content{
     position: relative;
