@@ -22,7 +22,14 @@ export default class Header extends React.Component{
      // https://www.tianqiapi.com/api/
     Axios.get('https://www.tianqiapi.com/api/').then(res=>{
       this.setState({
-        weather:res.data.data[0].wea
+        weather:res.data.data[0].wea,
+        city:res.data.city
+      })
+    }).catch(err=>{
+      console.log(err);
+      this.setState({
+        weather:'',
+        city:''
       })
     })
    
@@ -40,7 +47,7 @@ export default class Header extends React.Component{
           <Col span={4} className="breadcrumb-title">首页</Col>
           <Col span={20} className="weather">
             <span className="date">{this.state.sysTime}</span>
-            <span className="weather-detail">{this.state.weather}</span>
+            <span className="weather-detail">{this.state.city+ " " +this.state.weather}</span>
           </Col>
         </Row>
       </div>

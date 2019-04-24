@@ -5,7 +5,7 @@ import Header from '../Header'
 import Footer from '../Footer'
 import LeftNav from '../LeftNav'
 
-import Home from '../../pages/home'
+// import Home from '../../pages/home'
 
 import '../../styles/common.less'
 
