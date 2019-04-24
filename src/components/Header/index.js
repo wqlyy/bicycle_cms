@@ -1,5 +1,6 @@
 import React from 'react'
 import {Row,Col} from 'antd'
+import moment from 'moment'
 
 import Util from '../../utils/utils'
 import './index.less'
@@ -11,7 +12,8 @@ export default class Header extends React.Component{
       userName:'admin1'
     })
     setInterval(() => {
-      let sysTime = Util.formatDate(new Date().getTime())
+      // let sysTime = Util.formatDate(new Date().getTime())
+      let sysTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
       this.setState({
         sysTime
       })

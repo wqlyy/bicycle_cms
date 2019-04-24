@@ -1,7 +1,7 @@
 import React from 'react'
 import {HashRouter,Route,Switch} from 'react-router-dom';
 
-import Login from './pages/login';
+// import Login from './pages/login';
 import Layout from './components/Layout';
 import App from './App';
 import Buttons from './pages/ui/buttons';
@@ -12,6 +12,8 @@ import Messages from './pages/ui/messages'
 import Tab from './pages/ui/tabs'
 import Gallerys from './pages/ui/gallery'
 import Carousels from './pages/ui/carousel'
+import Login from './pages/form/login'
+import Register from './pages/form/register'
 
 import Error404 from './pages/error/404'
 
@@ -34,6 +36,16 @@ export default class IRouter extends React.Component{
                 <Route path="/ui/tabs" component={Tab}/>
                 <Route path="/ui/gallery" component={Gallerys}/>
                 <Route path="/ui/carousel" component={Carousels}/>
+                <Route path="/form/login" component={Login}/>
+                <Route component={Error404}/>
+              </Switch>
+            </Layout>  
+          }/>
+          <Route path='/form' render={()=>
+            <Layout>
+              <Switch>
+                <Route path="/form/reg" component={Register}/>
+                <Route path="/form/login" component={Login}/>
                 <Route component={Error404}/>
               </Switch>
             </Layout>  
