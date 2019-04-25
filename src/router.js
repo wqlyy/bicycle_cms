@@ -18,6 +18,8 @@ import Register from './pages/form/register'
 import BaseTable from './pages/tables/base'
 import HighTable from './pages/tables/high'
 import City from './pages/city'
+import Order from './pages/order'
+
 
 import Error404 from './pages/error/404'
 
@@ -49,6 +51,7 @@ export default class IRouter extends React.Component{
                 <Route path="/table/basic" component={BaseTable}/>
                 <Route path="/table/high" component={HighTable}/>
                 <Route path="/city" component={City}/>
+                <Route path="/order" component={Order}/>
                 <Route component={Error404}/>
               </Switch>
             </Layout>  
