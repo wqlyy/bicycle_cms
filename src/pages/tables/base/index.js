@@ -68,15 +68,15 @@ export default class BaseTable extends React.Component{
         }
       }
     }).then(res=>{
-      res.result.list.map((item,index)=>{
+      res.list.map((item,index)=>{
         return item.key = index;
       })
       this.setState({
-        dataSource2:res.result.list,
-        dataSource3:res.result.list,
+        dataSource2:res.list,
+        dataSource3:res.list,
         selectedRowKeys:[],
         selectedItem:null,
-        pagination:Utils.paginations(res.result,(current)=>{
+        pagination:Utils.paginations(res,(current)=>{
           _this.params.page = current;
           this.getTableList();
         })

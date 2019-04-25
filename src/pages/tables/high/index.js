@@ -22,7 +22,7 @@ export default class BaseTable extends React.Component{
   getTableList=()=>{
     let _this = this;
     Ajax({
-      url:'/high/list',
+      url:'/table/high/list',
       data:{
         isShowLoading:true,
         params:{
@@ -30,12 +30,12 @@ export default class BaseTable extends React.Component{
         }
       }
     }).then(res=>{
-      res.result.list.map((item,index)=>{
+      res.list.map((item,index)=>{
         return item.key = index;
       })
       this.setState({
-        dataSource:res.result.list,
-        pagination:Utils.paginations(res.result,(current)=>{
+        dataSource:res.list,
+        pagination:Utils.paginations(res,(current)=>{
           _this.params.page = current;
           this.getTableList();
         })

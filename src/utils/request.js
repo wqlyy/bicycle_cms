@@ -23,7 +23,7 @@ export default class Request {
         }
         if(res.status===200){
           if(res.data.code===0){
-            resolve(res.data)
+            resolve(res.data.result)
           }else{
             Modal.info({
               title:'提示',
