@@ -29,5 +29,14 @@ const SEX={
   '1':'男',
   '2':'女'
 }
-
-export {SEX,INTEREST,STATUS}
+// 用车模式
+const USE_BIKE_MODE ={
+  "1":"停车点",
+  "2":"禁停区"
+}
+//营运模式
+const OP_MODE = {
+  "1":"自营",
+  "2":"加盟"
+}
+export {SEX,INTEREST,STATUS,USE_BIKE_MODE,OP_MODE}
