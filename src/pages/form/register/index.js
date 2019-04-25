@@ -110,7 +110,7 @@ class Register extends React.Component{
             </FormItem>
             <FormItem label="爱好" {...formItemLayout}>
               {
-                getFieldDecorator('like',{
+                getFieldDecorator('interest',{
                   initialValue:['1','2'],
                   rules:[]
                 })(
