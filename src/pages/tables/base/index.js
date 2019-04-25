@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card,Table, Modal} from 'antd';
+import {Card,Table, Modal,Button, message} from 'antd';
 import Ajax from '../../../utils'
 import {SEX,INTEREST,STATUS} from '../../../config/dict'
 
@@ -80,6 +80,22 @@ export default class BaseTable extends React.Component{
       content:`用户名：${record.userName}，用户爱好：${INTEREST[record.interest]}`
     })
   }
+  //多选删除
+  deleteRow=()=>{
+    let rows = this.state.selectedRows;
+    let ids=[];
+    rows.forEach((item)=>{
+      ids.push(item.id);
+    })
+    Modal.confirm({
+      title:'删除提示',
+      content:`您确定要删除这些数据吗？${ids.join(',')}`,
+      onOk:()=>{
+        message.success('删除成功')
+      }
+    })
+    console.log(rows)
+  }
   render(){
     const columns=[
       {
@@ -128,6 +144,17 @@ export default class BaseTable extends React.Component{
       type:'radio',
       selectedRowKeys:this.state.selectedRowKeys
     }
+    const rowCheckedSelection={
+      type:'checkbox',
+      selectedRowKeys:this.state.selectedRowKeys,
+      onChange:(selectedRowKeys,selectedRows)=>{
+        this.setState({
+          selectedRowKeys,
+          selectedRows
+
+        })
+      }
+    }
     return (
       <div>
         <Card title="基础表格" className="card-wrap">
@@ -155,6 +182,17 @@ export default class BaseTable extends React.Component{
                 }
               }
             }}
+            bordered
+            dataSource={this.state.dataSource2}
+          />
+        </Card>
+        <Card title="Mock-多选" className="card-wrap">
+        <div>
+          <Button onClick={this.deleteRow} type="primary">删除</Button>
+        </div>
+          <Table
+            columns={columns}
+            rowSelection={rowCheckedSelection}
             bordered
             dataSource={this.state.dataSource2}
           />
