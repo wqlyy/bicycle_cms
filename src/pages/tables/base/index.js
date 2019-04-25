@@ -1,8 +1,17 @@
 import React from 'react';
-import {Card,Table} from 'antd';
+import {Card,Table, Modal} from 'antd';
+import Ajax from '../../../utils'
+import {SEX,INTEREST,STATUS} from '../../../config/dict'
 
 export default class BaseTable extends React.Component{
-  componentWillMount(){
+  constructor(props){
+    super(props);
+    this.state={
+      dataSource:[],
+      dataSource1:[]
+    }
+  }
+  componentDidMount(){
     const dataSource = [
       {
         id:'1',
@@ -36,8 +45,39 @@ export default class BaseTable extends React.Component{
         time:'09:09:09'
       }
     ];
+    dataSource.map((item,index)=>{
+      return item.key = index;
+    })
     this.setState({
       dataSource
+    })
+    this.getTableList();
+  }
+  getTableList=()=>{
+    Ajax({
+      url:'/table/list',
+      data:{
+        isShowLoading:true
+      }
+    }).then(res=>{
+      res.result.list.map((item,index)=>{
+        return item.key = index;
+      })
+      this.setState({
+        dataSource2:res.result.list,
+        
+      })
+    })
+  }
+  onRowClick=(record,index)=>{
+    let selectedKey = [index];
+    this.setState({
+      selectedRowKeys:selectedKey,
+      selectedItem:record
+    })
+    Modal.info({
+      title:'信息',
+      content:`用户名：${record.userName}，用户爱好：${INTEREST[record.interest]}`
     })
   }
   render(){
@@ -52,15 +92,24 @@ export default class BaseTable extends React.Component{
       },
       {
         title:'性别',
-        dataIndex:'sex'
+        dataIndex:'sex',
+        render(sex){
+          return SEX[sex];
+        }
       },
       {
         title:'状态',
-        dataIndex:'status'
+        dataIndex:'status',
+        render(status){
+          return STATUS[status];
+        }
       },
       {
         title:'爱好',
-        dataIndex:'interest'
+        dataIndex:'interest',
+        render(interest){
+          return INTEREST[interest];
+        }
       },
       {
         title:'生日',
@@ -75,6 +124,10 @@ export default class BaseTable extends React.Component{
         dataIndex:'time'
       }
     ]
+    const rowSelection={
+      type:'radio',
+      selectedRowKeys:this.state.selectedRowKeys
+    }
     return (
       <div>
         <Card title="基础表格" className="card-wrap">
@@ -82,6 +135,28 @@ export default class BaseTable extends React.Component{
             columns={columns}
             bordered
             dataSource={this.state.dataSource}
+          />
+        </Card>
+        <Card title="动态数据渲染表格" className="card-wrap">
+          <Table
+            columns={columns}
+            bordered
+            dataSource={this.state.dataSource2}
+          />
+        </Card>
+        <Card title="Mock-单选" className="card-wrap">
+          <Table
+            columns={columns}
+            rowSelection={rowSelection}
+            onRow={(record,index)=>{
+              return {
+                onClick:()=>{
+                  this.onRowClick(record,index);
+                }
+              }
+            }}
+            bordered
+            dataSource={this.state.dataSource2}
           />
         </Card>
       </div>
