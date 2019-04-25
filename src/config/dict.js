@@ -1,14 +1,17 @@
+import React from 'react'
+import {Badge} from 'antd'
+
 /**
  * 字典文件
  */
 
 //状态
 const STATUS = {
-  '1':'选项一',
-  '2':'选项二',
-  '3':'选项三',
-  '4':'选项四',
-  '5':'选项五'
+  '1':<Badge status='success' text='运行中'/>,
+  '2':<Badge status='error' text='报错'/>,
+  '3':<Badge status='default' text='正常'/>,
+  '4':<Badge status='processing' text='处理中'/>,
+  '5':<Badge status='warning' text='警告'/>,
 }
 //爱好
 const INTEREST = {
