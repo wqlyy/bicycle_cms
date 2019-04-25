@@ -1,6 +1,7 @@
 import React from 'react';
 import {Card,Table, Modal,Button, message} from 'antd';
 import Ajax from '../../../utils'
+import Utils from '../../../utils/utils'
 import {SEX,INTEREST,STATUS} from '../../../config/dict'
 
 export default class BaseTable extends React.Component{
@@ -10,6 +11,9 @@ export default class BaseTable extends React.Component{
       dataSource:[],
       dataSource1:[]
     }
+  }
+  params={
+    page:1
   }
   componentDidMount(){
     const dataSource = [
@@ -54,10 +58,14 @@ export default class BaseTable extends React.Component{
     this.getTableList();
   }
   getTableList=()=>{
+    let _this = this;
     Ajax({
       url:'/table/list',
       data:{
-        isShowLoading:true
+        isShowLoading:true,
+        params:{
+          page:this.params.page
+        }
       }
     }).then(res=>{
       res.result.list.map((item,index)=>{
@@ -65,6 +73,13 @@ export default class BaseTable extends React.Component{
       })
       this.setState({
         dataSource2:res.result.list,
+        dataSource3:res.result.list,
+        selectedRowKeys:[],
+        selectedItem:null,
+        pagination:Utils.paginations(res.result,(current)=>{
+          _this.params.page = current;
+          this.getTableList();
+        })
         
       })
     })
@@ -195,6 +210,17 @@ export default class BaseTable extends React.Component{
             rowSelection={rowCheckedSelection}
             bordered
             dataSource={this.state.dataSource2}
+          />
+        </Card>
+        <Card title="Mock-表格分页" className="card-wrap">
+        <div>
+          <Button onClick={this.deleteRow} type="primary">删除</Button>
+        </div>
+          <Table
+            columns={columns}
+            bordered
+            dataSource={this.state.dataSource3}
+            pagination={this.state.pagination}
           />
         </Card>
       </div>
