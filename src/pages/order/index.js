@@ -215,9 +215,6 @@ export default class Order extends React.Component{
       <div>
         <Card>
           <BaseFilter filterSubmit={this.handleFilter} formList={this.formList}/>
-          {/* <FilterForm wrappedComponentRef={(inst)=>{
-            this.filterForm = inst;
-          }}/> */}
         </Card>
         <Card>
           <Button onClick={this.openOrderDetail} type="primary">订单详情</Button>

@@ -32,6 +32,7 @@ class FilterForm extends React.Component{
                   showTime={{ format: 'HH:mm' }}
                   format="YYYY-MM-DD HH:mm:ss"
                   placeholder={['开始时间', '结束时间']}
+                  style={{width:width}}
                   // onChange={this.onChange}
                   // onOk={this.onOk}
                 />)
@@ -42,11 +43,12 @@ class FilterForm extends React.Component{
         if(item.type === 'INPUT'){
           const INPUT = <FormItem
             label={label}
+            key={item.key}
           >
             {
               getFieldDecorator(field,{
                 initialValue:initValue
-              })(<Input type="text" placeholder={placeholder}/>)
+              })(<Input style={{width:width}} type="text" placeholder={placeholder}/>)
             }
           </FormItem>;
           formItemList.push(INPUT);
@@ -54,7 +56,6 @@ class FilterForm extends React.Component{
           const SELECT = <FormItem
             label={label}
             key={item.key}
-            
           >
             {
               getFieldDecorator(field,{
@@ -76,7 +77,9 @@ class FilterForm extends React.Component{
               getFieldDecorator(field,{
                 valuePropName:'checked',
                 initialValue:initValue
-              })(<Checkbox>
+              })(<Checkbox
+                style={{width:width}}
+              >
                 {label}
               </Checkbox>)
             }
