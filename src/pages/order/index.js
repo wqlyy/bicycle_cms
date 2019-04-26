@@ -91,13 +91,21 @@ export default class Order extends React.Component{
   selectRow = (record,index) => {
     console.log(index)
     const selectedRowKeys = [index];
-    this.setState({ selectedRowKeys, selectedItem:record});
+    this.setState({ selectedRowKeys, selectedItem:record[0]});
   }
   onSelectedRowKeysChange = (selectedRowKeys,record) => {
-    this.setState({ selectedRowKeys, selectedItem:record});
+    this.setState({ selectedRowKeys, selectedItem:record[0]});
   }
   openOrderDetail=()=>{
-
+    let item = this.state.selectedItem;
+    if (!item) {
+      Modal.info({
+        title: '信息',
+        content: '请先选择一条订单'
+      })
+      return;
+    }
+   window.open(`/#/common/order/detail/${item.id}`,'_blank')
   }
   render(){
     const columns = [
