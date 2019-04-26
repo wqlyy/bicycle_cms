@@ -1,6 +1,6 @@
 import React from 'react';
 import {Card,Table, Modal,Button, message} from 'antd';
-import Ajax from '../../../utils'
+import Request from '../../../utils/request'
 import Utils from '../../../utils/utils'
 import {SEX,INTEREST,STATUS} from '../../../config/dict'
 
@@ -59,7 +59,7 @@ export default class BaseTable extends React.Component{
   }
   getTableList=()=>{
     let _this = this;
-    Ajax({
+    Request.ajax({
       url:'/table/list',
       data:{
         isShowLoading:true,

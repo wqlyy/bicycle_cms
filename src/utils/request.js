@@ -1,5 +1,6 @@
 import Axios from 'axios';
 import { Modal ,message} from 'antd';
+import Utils from './utils'
 
 export default class Request {
   static ajax(options){
@@ -30,15 +31,28 @@ export default class Request {
               content:res.data.msg
             })
           }
-        }else{
-          if(options.data && options.data.isShowLoading!==false){
-            loading = document.getElementById('ajaxLoading');
-            loading.style.display = 'none';
-          }
-          message.error('请求超时，请稍候重试')
-          console.log(res.data);
-          reject(res.data)
         }
+      }).catch(err=>{
+        message.error('请求超时，请稍候重试');
+        reject(err)
+        if(options.data && options.data.isShowLoading!==false){
+          loading = document.getElementById('ajaxLoading');
+          loading.style.display = 'none';
+        }
+      })
+    })
+  }
+  static getList(_this,url,params){
+    this.ajax({url,data:{params}}).then(res=>{
+      _this.setState({
+        list:res.list.map((item,index)=>{
+          item.key=index;
+          return item;
+        }),
+        pagination:Utils.paginations(res,(current)=>{
+          _this.params.page = current
+          _this.getList()
+        })
       })
     })
   }

@@ -1,7 +1,6 @@
 import React from 'react';
 import {Card,Button,Table,Form,Modal,message} from 'antd';
-import Ajax from '../../utils'
-import Utils from '../../utils/utils'
+import Request from '../../utils/request'
 import BaseFilter from '../../components/BaseForm'
 
 
@@ -75,25 +74,7 @@ export default class Order extends React.Component{
     this.getList()
   }
   getList=()=>{
-    Ajax({
-      url:'/order/list',
-      data:{
-        params:this.params
-      }
-    }).then(res=>{
-
-      this.setState({
-        list:res.list.map((item,index)=>{
-          item.key=index;
-          return item;
-        }),
-        pagination:Utils.paginations(res,(current)=>{
-          this.params.page = current
-            
-          this.getList()
-        })
-      })
-    })
+    Request.getList(this,'/order/list',this.params)
   }
   handleFilter = (params)=>{
     let start_time="",end_time="";
@@ -116,7 +97,7 @@ export default class Order extends React.Component{
       })
       return;
     }
-    Ajax({
+    Request.ajax({
       url:'/order/ebike_info',
       data:{
         params:{
@@ -134,7 +115,7 @@ export default class Order extends React.Component{
   // 结束订单
   handleFinishOrder = ()=>{
     let item = this.state.selectedItem;
-    Ajax({
+    Request.ajax({
       url: '/order/finish_order',
       data: {
         params: {
@@ -286,17 +267,3 @@ export default class Order extends React.Component{
     )
   }
 }
-
-
-
-// <Form.Item label="订单时间">
-//           {
-//             getFieldDecorator('order_date')(<DatePicker.RangePicker
-//               showTime={{ format: 'HH:mm' }}
-//               format="YYYY-MM-DD HH:mm:ss"
-//               placeholder={['开始时间', '结束时间']}
-//               // onChange={this.onChange}
-//               // onOk={this.onOk}
-//             />)
-//           }
-//         </Form.Item>

@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import {Card} from 'antd';
-import Ajax from '../../utils'
+import Request from '../../utils/request'
 
 import './detail.less'
 
@@ -15,7 +15,7 @@ export default class Detail extends Component{
     this.getDetailInfo(orderId);
   }
   getDetailInfo=orderId=>{
-    Ajax({
+    Request.ajax({
       url:'/order/detail',
       data:{
         params:{
