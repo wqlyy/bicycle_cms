@@ -3,7 +3,8 @@ import {HashRouter,Route,Switch,Redirect} from 'react-router-dom';
 
 import Login from './pages/login';
 import Home from './pages/home';
-import Layout from './components/Layout';
+import AdminLayout from './components/Layout';
+import CommonLayout from './components/Common';
 import App from './App';
 import Buttons from './pages/ui/buttons';
 import Modals from './pages/ui/modals'
@@ -30,12 +31,19 @@ export default class IRouter extends React.Component{
         <App>
            <Switch>
             <Route path="/login" component={Login}/>
-            <Route path="/order/detail/:orderId" component={Login} />
+            
+            <Route path="/common" render={()=>
+              <CommonLayout>
+                <Route path='/common/order/detail/:orderId' component={Login}/>
+              </CommonLayout>  
+            } />
+            
+            
             <Route exact path="/" render={()=>
               <Redirect to="/home" />
             } />
             <Route path='/' render={()=>
-              <Layout>
+              <AdminLayout>
                 <Switch>
                   <Route path='/home' component={Home}/>
                   <Route path="/ui/buttons" component={Buttons}/>
@@ -54,8 +62,9 @@ export default class IRouter extends React.Component{
                   <Route path="/order" component={Order}/>
                   <Route component={Error404}/>
                 </Switch>
-              </Layout>  
+              </AdminLayout>  
             }/>
+            <Route component={Error404}/>
            </Switch>
         </App>
       </HashRouter>  

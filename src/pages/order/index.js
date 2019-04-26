@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card,Button,Table,Form, Select, DatePicker} from 'antd';
+import {Card,Button,Table,Form, Select, DatePicker,Modal,message} from 'antd';
 import Ajax from '../../utils'
 import Utils from '../../utils/utils'
 
@@ -7,10 +7,13 @@ export default class Order extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      listQuery:{
-        page:1
-      }
+      selectedRowKeys:[],
+      orderInfo:{},
+      orderConfirmVisble:false
     }
+  }
+  params = {
+      page: 1
   }
   componentDidMount(){
     this.getList()
@@ -19,9 +22,7 @@ export default class Order extends React.Component{
     Ajax({
       url:'/order/list',
       data:{
-        params:{
-          page:this.state.listQuery.page
-        }
+        params:this.params
       }
     }).then(res=>{
 
@@ -31,15 +32,72 @@ export default class Order extends React.Component{
           return item;
         }),
         pagination:Utils.paginations(res,(current)=>{
-          this.setState({
-            listQuery:{
-              page:current
-            }
-          })
+          this.params.page = current
+            
           this.getList()
         })
       })
     })
+  }
+  handleFilter = (params)=>{
+    this.params = params;
+    this.getList();
+  }
+   // 订单结束确认
+   handleConfirm = ()=>{
+    let item = this.state.selectedItem;
+    if (!item) {
+      Modal.info({
+        title: '信息',
+        content: '请选择一条订单进行结束'
+      })
+      return;
+    }
+    Ajax({
+      url:'/order/ebike_info',
+      data:{
+        params:{
+          orderId: item.id
+        }
+      }
+    }).then((result)=>{
+      this.setState({
+        orderInfo:result,
+        orderConfirmVisble: true
+      })
+    })
+  }
+
+  // 结束订单
+  handleFinishOrder = ()=>{
+    let item = this.state.selectedItem;
+    Ajax({
+      url: '/order/finish_order',
+      data: {
+        params: {
+          orderId: item.id
+        }
+      }
+    }).then((res) => {
+      message.success(res)
+      this.setState({
+        orderConfirmVisble: false,
+        selectedRowKeys:[],
+        selectedItem:null
+      })
+      this.getList();
+    })
+  }
+  selectRow = (record,index) => {
+    console.log(index)
+    const selectedRowKeys = [index];
+    this.setState({ selectedRowKeys, selectedItem:record});
+  }
+  onSelectedRowKeysChange = (selectedRowKeys,record) => {
+    this.setState({ selectedRowKeys, selectedItem:record});
+  }
+  openOrderDetail=()=>{
+
   }
   render(){
     const columns = [
@@ -91,6 +149,16 @@ export default class Order extends React.Component{
         dataIndex:"user_pay"
       },
     ]
+    const formItemLayout = {
+      labelCol:{span:5},
+      wrapperCol:{span:19}
+    }
+    const selectedRowKeys = this.state.selectedRowKeys;
+    const rowSelection = {
+      type: 'radio',
+      selectedRowKeys,
+      onChange: this.onSelectedRowKeysChange
+    };
     return (
       <div>
         <Card>
@@ -99,8 +167,8 @@ export default class Order extends React.Component{
           }}/>
         </Card>
         <Card>
-          <Button>订单详情</Button>
-          <Button>结束订单</Button>
+          <Button onClick={this.openOrderDetail} type="primary">订单详情</Button>
+          <Button onClick={this.handleConfirm} type="primary" style={{marginLeft:'15px'}}>结束订单</Button>
         </Card>
         <div className="content-wrap">
           <Table
@@ -108,8 +176,40 @@ export default class Order extends React.Component{
             columns={columns}
             dataSource={this.state.list}
             pagination={this.state.pagination}
+            rowSelection={rowSelection}
+            onRow={(record,index) => ({
+              onClick: () => {
+                this.selectRow(record,index);
+              },
+            })}
           />
         </div>
+          <Modal
+            title="结束订单"
+            visible={this.state.orderConfirmVisble}
+            onCancel={()=>{
+                this.setState({
+                    orderConfirmVisble:false
+                })
+            }}
+            onOk={this.handleFinishOrder}
+            width={600}
+        >
+            <Form layout="horizontal">
+                <Form.Item label="车辆编号" {...formItemLayout}>
+                    {this.state.orderInfo.bike_sn}
+                </Form.Item>
+                <Form.Item label="剩余电量" {...formItemLayout}>
+                    {this.state.orderInfo.battery + '%'}
+                </Form.Item>
+                <Form.Item label="行程开始时间" {...formItemLayout}>
+                    {this.state.orderInfo.start_time}
+                </Form.Item>
+                <Form.Item label="当前位置" {...formItemLayout}>
+                    {this.state.orderInfo.location}
+                </Form.Item>
+            </Form>
+        </Modal>
       </div>
     )
   }
@@ -135,7 +235,6 @@ class FilterForm extends React.Component{
     
   }
   render(){
-    console.log(this.props.form)
     const { getFieldDecorator } = this.props.form;
     return (
       <Form layout="inline">
