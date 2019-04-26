@@ -28,7 +28,7 @@ export default class Header extends React.Component{
         city:res.data.city
       })
     }).catch(err=>{
-      console.log(err);
+     
       this.setState({
         weather:'',
         city:''

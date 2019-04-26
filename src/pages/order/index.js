@@ -61,7 +61,10 @@ export default class Order extends React.Component{
       },
       {
         title:'里程',
-        dataIndex:"distance"
+        dataIndex:"distance",
+        render(dis){
+          return `${dis/1000}km`
+        }
       },
       {
         title:'行驶时长',

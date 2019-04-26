@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import { Modal } from 'antd';
+import { Modal ,message} from 'antd';
 
 export default class Request {
   static ajax(options){
@@ -31,6 +31,12 @@ export default class Request {
             })
           }
         }else{
+          if(options.data && options.data.isShowLoading!==false){
+            loading = document.getElementById('ajaxLoading');
+            loading.style.display = 'none';
+          }
+          message.error('请求超时，请稍候重试')
+          console.log(res.data);
           reject(res.data)
         }
       })
