@@ -1,7 +1,9 @@
 import React from 'react';
-import {Card,Button,Table,Form, Select, DatePicker,Modal,message} from 'antd';
+import {Card,Button,Table,Form,Modal,message} from 'antd';
 import Ajax from '../../utils'
 import Utils from '../../utils/utils'
+import BaseFilter from '../../components/BaseForm'
+
 
 export default class Order extends React.Component{
   constructor(props){
@@ -15,6 +17,60 @@ export default class Order extends React.Component{
   params = {
       page: 1
   }
+  formList = [{
+      type:'SELECT',
+      label:"城市",
+      field:'city',
+      placeholder:"全部",
+      initialValue:"",
+      width:100,
+      list:[
+        {
+          id:'',
+          name:"全部"
+        },
+        {
+          id:"1",
+          name:"北京"
+        },
+        {
+          id:"2",
+          name:"天津"
+        },
+        {
+          id:"3",
+          name:"上海"
+        }
+      ]
+    },
+    {
+      type:'时间查询',
+      label:"订单时间",
+      field:"order_date"
+    },
+    {
+      type:'SELECT',
+      label:"订单状态",
+      field:'status',
+      placeholder:"全部",
+      initialValue:"",
+      width:100,
+      list:[
+        {
+          id:'',
+          name:"全部"
+        },
+        {
+          id:"1",
+          name:"进行中"
+        },
+        {
+          id:"2",
+          name:"结束行程"
+        }
+      ]
+    }
+  ]
   componentDidMount(){
     this.getList()
   }
@@ -40,6 +96,13 @@ export default class Order extends React.Component{
     })
   }
   handleFilter = (params)=>{
+    let start_time="",end_time="";
+    if(params.order_date){
+      start_time = params.order_date[0].format('YYYY-MM-DD HH:mm:ss');
+      end_time = params.order_date[1].format('YYYY-MM-DD HH:mm:ss')
+    }
+    params.start_time = start_time;
+    params.end_time = end_time;
     this.params = params;
     this.getList();
   }
@@ -170,9 +233,10 @@ export default class Order extends React.Component{
     return (
       <div>
         <Card>
-          <FilterForm wrappedComponentRef={(inst)=>{
+          <BaseFilter filterSubmit={this.handleFilter} formList={this.formList}/>
+          {/* <FilterForm wrappedComponentRef={(inst)=>{
             this.filterForm = inst;
-          }}/>
+          }}/> */}
         </Card>
         <Card>
           <Button onClick={this.openOrderDetail} type="primary">订单详情</Button>
@@ -225,79 +289,14 @@ export default class Order extends React.Component{
 
 
 
-class FilterForm extends React.Component{
-  onChange=(value, dateString) =>{
-    console.log('Selected Time: ', value);
-    console.log('Formatted Selected Time: ', dateString);
-  }
-  
-  onOk = (value)=> {
-    console.log('onOk: ', value);
-  }
-  handleSubmit=(e)=>{
-    e.preventDefault();
-
-    let formValue = this.props.form.getFieldsValue();
-    console.log(formValue)
-    // console.log(formValue.order_date[0].format('YYYY-MM-DD HH:mm:ss'))
-    
-  }
-  render(){
-    const { getFieldDecorator } = this.props.form;
-    return (
-      <Form layout="inline">
-        <Form.Item label="城市">
-          {
-            getFieldDecorator('city_id',{
-              initialValue:"0"
-            })(
-              <Select
-                style={{width:100}}
-                placeholder="全部"
-              >
-                <Select.Option value="0">全部</Select.Option>
-                <Select.Option value="1">北京市</Select.Option>
-                <Select.Option value="2">天津市</Select.Option>
-                <Select.Option value="3">深圳市</Select.Option>
-              </Select>
-            )
-          }
-        </Form.Item>
-        <Form.Item label="订单时间">
-          {
-            getFieldDecorator('order_date')(<DatePicker.RangePicker
-              showTime={{ format: 'HH:mm' }}
-              format="YYYY-MM-DD HH:mm:ss"
-              placeholder={['开始时间', '结束时间']}
-              // onChange={this.onChange}
-              // onOk={this.onOk}
-            />)
-          }
-        </Form.Item>
-        <Form.Item label="订单状态">
-          {
-            getFieldDecorator('start_time',{
-              initialValue:"0"
-            })(
-              <Select
-              style={{width:100}}
-              placeholder="全部"
-            >
-              <Select.Option value="0">全部</Select.Option>
-              <Select.Option value="1">进行中</Select.Option>
-              <Select.Option value="2">进行中（临时锁车）</Select.Option>
-              <Select.Option value="3">行程结束</Select.Option>
-            </Select>
-            )
-          }
-        
-        </Form.Item>
-        <Form.Item>
-          <Button onClick={this.handleSubmit} type="primary" style={{margin:"0 10px"}}>查询</Button>
-          <Button>重置</Button>
-        </Form.Item>
-      </Form>
-    )
-  }
-}
-FilterForm = Form.create()(FilterForm)
+// <Form.Item label="订单时间">
+//           {
+//             getFieldDecorator('order_date')(<DatePicker.RangePicker
+//               showTime={{ format: 'HH:mm' }}
+//               format="YYYY-MM-DD HH:mm:ss"
+//               placeholder={['开始时间', '结束时间']}
+//               // onChange={this.onChange}
+//               // onOk={this.onOk}
+//             />)
+//           }
+//         </Form.Item>

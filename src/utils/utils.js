@@ -1,3 +1,6 @@
+import {Select} from 'antd'
+import React from 'react'
+
 export default {
   formatDate(time){
     if(!time){return ''}
@@ -5,7 +8,6 @@ export default {
     return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate() + '  ' + date.getHours()+':'+date.getMinutes()+':'+date.getSeconds()
   },
   paginations(data,callback){
-    console.log(data)
     return {
       onChange:(current)=>{
         callback(current)
@@ -18,5 +20,16 @@ export default {
       },
       showQuickJumper:true
     }
+  },
+  getOptionList(data){
+    if(!data) return [];
+     let list = data.map((item,index)=>{
+       item.key = index;
+      return item;
+    })
+    let options = list.map(item=>{
+      return <Select.Option key={item.key} value={item.id}>{item.name}</Select.Option>
+    })
+    return options;
   }
 }
