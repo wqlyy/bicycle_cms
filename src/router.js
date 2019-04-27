@@ -23,6 +23,9 @@ import Order from './pages/order'
 import OrderDetail from './pages/order/detail'
 import User from './pages/user'
 import BikeMap from './pages/bikeMap'
+import ChartsBar from './pages/charts/bar'
+import ChartsPie from './pages/charts/pie'
+import ChartsLine from './pages/charts/line'
 
 
 import Error404 from './pages/error/404'
@@ -61,6 +64,9 @@ export default class IRouter extends React.Component{
                   <Route path="/form/login" component={Logins}/>
                   <Route path="/table/basic" component={BaseTable}/>
                   <Route path="/table/high" component={HighTable}/>
+                  <Route path="/charts/bar" component={ChartsBar}/>
+                  <Route path="/charts/pie" component={ChartsPie}/>
+                  <Route path="/charts/line" component={ChartsLine}/>
                   <Route path="/city" component={City}/>
                   <Route path="/order" component={Order}/>
                   <Route path="/user" component={User}/>

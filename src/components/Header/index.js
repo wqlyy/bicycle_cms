@@ -22,6 +22,8 @@ export default class Header extends React.Component{
   }
   getWeather=()=>{
      // https://www.tianqiapi.com/api/
+     //http://api.map.baidu.com/telematics/v3/weather?location=beijing&output=json&ak=3p49MVra6urFRGOT9s8UBWr2
+
     Axios.get('https://www.tianqiapi.com/api/').then(res=>{
       this.setState({
         weather:res.data.data[0].wea,
