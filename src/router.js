@@ -22,6 +22,8 @@ import City from './pages/city'
 import Order from './pages/order'
 import OrderDetail from './pages/order/detail'
 import User from './pages/user'
+import BikeMap from './pages/bikeMap'
+
 
 import Error404 from './pages/error/404'
 
@@ -62,6 +64,7 @@ export default class IRouter extends React.Component{
                   <Route path="/city" component={City}/>
                   <Route path="/order" component={Order}/>
                   <Route path="/user" component={User}/>
+                  <Route path="/bikeMap" component={BikeMap}/>
                   <Route component={Error404}/>
                 </Switch>
               </AdminLayout>  

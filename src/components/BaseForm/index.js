@@ -23,12 +23,12 @@ class FilterForm extends React.Component{
         let placeholder = item.placeholder;
         let width = item.width;
         if(item.type==="时间查询"){
-          const DATEPICKER = <FormItem
-            label={label}
+          const formDate = <FormItem
+            label="时间查询"
             key={item.key}
           >
              {
-                getFieldDecorator(field)(<DatePicker.RangePicker
+                getFieldDecorator('date_time')(<DatePicker.RangePicker
                   showTime={{ format: 'HH:mm' }}
                   format="YYYY-MM-DD HH:mm:ss"
                   placeholder={['开始时间', '结束时间']}
@@ -38,7 +38,7 @@ class FilterForm extends React.Component{
                 />)
               }
           </FormItem>
-          formItemList.push(DATEPICKER);
+          formItemList.push(formDate);
         }
         if(item.type === 'INPUT'){
           const INPUT = <FormItem

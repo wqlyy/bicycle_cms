@@ -67,7 +67,7 @@ export default class User extends React.Component{
     }
   }
   handleSubmit=()=>{
-    let type = this.state.type;
+    // let type = this.state.type;
     let data = this.userForm.props.form.getFieldsValue();
     Request.ajax({
       url:'/user/add',
@@ -181,7 +181,7 @@ class UserForm extends React.Component{
     return options;
   }
   render(){
-    let type = this.props.type;
+    // let type = this.props.type;
     let userInfo = this.props.userInfo || {};
     const {getFieldDecorator} = this.props.form;
     const formItemLayout={
