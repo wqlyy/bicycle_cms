@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form,Input,Radio,Tree} from "antd";
+import {Form,Input,Radio,Tree,Transfer} from "antd";
 import MenuList from '../../config/menuConfig'
 
 const {TreeNode} = Tree;
@@ -93,8 +93,43 @@ class PermissionForm extends React.Component{
   }
 }
 
+class RoleAuthForm extends React.Component{
+ 
+  onChecked=(checkedKeys)=>{
+    this.props.patchMenuInfo(checkedKeys);
+  }
+  filterOption=(inputValue,option)=>{
+    return option.title.indexOf(inputValue)>-1;
+  }
+  handleChange=(targetKeys)=>{
+    this.props.patchUserInfo(targetKeys)
+  }
+  render(){
+    const {detailInfo} = this.props;
+    return(
+      <Form layout='horizontal'>
+        <Form.Item label="角色名称" {...formItemLayout}>
+          <Input disabled placeholder={detailInfo.role_name}/>
+        </Form.Item>
+        <Form.Item label="选择用户" {...formItemLayout}>
+          <Transfer
+            listStyle={{height:400}}
+            dataSource={this.props.mockData}
+            targetKeys={this.props.targetKeys}
+            title={['待选用户','已选用户']}
+            showSearch
+            filterOption={this.filterOption}
+            render={item => item.title}
+            onChange={this.handleChange}
+          />
+        </Form.Item>
+      </Form>
+    )
+  }
+}
 
 
 RoleForm = Form.create()(RoleForm);
 PermissionForm = Form.create()(PermissionForm);
-export {RoleForm,PermissionForm}
+RoleAuthForm = Form.create()(RoleAuthForm);
+export {RoleForm,PermissionForm,RoleAuthForm}

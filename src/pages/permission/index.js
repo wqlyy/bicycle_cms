@@ -5,12 +5,13 @@ import ETable from '../../components/ETable'
 import Request from '../../utils/request'
 import Utils from '../../utils/utils'
 
-import {RoleForm,PermissionForm} from './permissionForm'
+import {RoleForm,PermissionForm,RoleAuthForm} from './permissionForm'
 
 export default class Permission extends React.Component{
   state={
     isRoleVisible:false,
-    isPermissionVisible:false
+    isPermissionVisible:false,
+    isAuthVisible:false
   }
   componentWillMount(){
     this.getList()
@@ -91,13 +92,30 @@ export default class Permission extends React.Component{
         params:{id}
       }
     }).then(res=>{
-      this.setState({
-
-      })
+      this.getAuthUserList(res);
     })
   };
-  getAuthUserList=()=>{
-
+  getAuthUserList=(dataSource)=>{
+    let mockData=[];
+    let targetKeys=[];
+    if(dataSource&&dataSource.length>0){
+      dataSource.forEach(item=>{
+        let data={
+          key:item.user_id,
+          title:item.user_name,
+          status:item.status
+        };
+        if(data.status===1){
+          targetKeys.push(data.key) 
+        }
+        mockData.push(data)
+      })
+      this.setState({
+        targetKeys,
+        mockData
+      })
+    }
+   
   }
   //用户授权
   handleUserAuth=()=>{
@@ -110,9 +128,17 @@ export default class Permission extends React.Component{
       return;
     }
     this.setState({
-      isPermissionVisible:true,
+      isAuthVisible:true,
       detailInfo:item
     });
+    this.getRoleUserList(item.id)
+  }
+  handleUserRoleSubmit=()=>{
+    let data={};
+    data.user_ids = this.state.targetKeys;
+    data.role_id=this.state.selectedItem.id;
+    // 提交数据
+    console.log(data);
   }
   render() {
     const columns=[
@@ -195,6 +221,33 @@ export default class Permission extends React.Component{
             }}
             patchMenuInfo={this.patchMenuInfo}
             detailInfo={this.state.detailInfo}
+          />
+        </Modal>
+
+        <Modal
+          title="用户权限"
+          width={600}
+          visible={this.state.isAuthVisible}
+          onOk={this.handleUserRoleSubmit}
+          onCancel={()=>{
+            this.authForm.props.form.resetFields();
+            this.setState({
+              isAuthVisible:false
+            })
+          }}
+        >
+          <RoleAuthForm
+            wrappedComponentRef={(inst)=>{
+              this.authForm = inst
+            }}
+            patchUserInfo={(targetKeys)=>{
+              this.setState({
+                targetKeys
+              })
+            }}
+            detailInfo={this.state.detailInfo}
+            targetKeys={this.state.targetKeys}
+            mockData={this.state.mockData}
           />
         </Modal>
       </div>
