@@ -118,6 +118,7 @@ class RoleAuthForm extends React.Component{
             targetKeys={this.props.targetKeys}
             title={['待选用户','已选用户']}
             showSearch
+            locale={{ itemUnit:'项', itemsUnit: '项', notFoundContent: '列表为空', searchPlaceholder:'请输入搜索内容'}}
             filterOption={this.filterOption}
             render={item => item.title}
             onChange={this.handleChange}
