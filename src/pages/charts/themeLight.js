@@ -1,8 +1,22 @@
+let colorPalette = [
+  '#c1232b',
+  '#27727b',
+  '#fcce10',
+  '#e87c25',
+  '#b5c334',
+  '#fe8463',
+  '#9bca63',
+  '#fad860',
+  '#f3a43b',
+  '#60c0dd',
+  '#d7504b',
+  '#c6E579',
+  '#f4e001',
+  '#f0805a',
+  '#26c0c0'
+];
 export default {
-  "color": [
-    '#f9c700', '#ff5400', '#6699cc', '#9cb3c5', '#e0e6ec',
-    '#666666', '#787464', '#cc7e63', '#724e58', '#4b565b'
-  ],
+  "color": colorPalette,
   "backgroundColor": "#ffffff",
   "textStyle": {},
   "title": {
@@ -102,7 +116,7 @@ export default {
       }
     },
     symbol: 'circle',
-    symbolSize: 10
+    symbolSize: 3.5
   },
 
   candlestick: {
