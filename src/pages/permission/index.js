@@ -75,15 +75,44 @@ export default class Permission extends React.Component{
       })
       this.getList()
     })
-    console.log(params);
   }
   patchMenuInfo=(checkedKeys)=>{
-    console.log(checkedKeys);
     let detatil = this.state.detailInfo;
     detatil.menus = checkedKeys;
     this.setState({
       detailInfo:detatil
     })
+  }
+  //用户列表
+  getRoleUserList = (id) =>{
+    Request.ajax({
+      url:"/role/user_list",
+      data:{
+        params:{id}
+      }
+    }).then(res=>{
+      this.setState({
+
+      })
+    })
+  };
+  getAuthUserList=()=>{
+
+  }
+  //用户授权
+  handleUserAuth=()=>{
+    let item = this.state.selectedItem;
+    if(!item){
+      Modal.info({
+        title:'提示',
+        content:'请选择一个角色'
+      })
+      return;
+    }
+    this.setState({
+      isPermissionVisible:true,
+      detailInfo:item
+    });
   }
   render() {
     const columns=[
@@ -122,7 +151,7 @@ export default class Permission extends React.Component{
         <Card>
           <Button onClick={this.handleCreate} type='primary'>创建角色</Button>
           <Button onClick={this.handlePermission} type='primary' style={{margin:'0 10px'}}>设置权限</Button>
-          <Button type='primary'>用户授权</Button>
+          <Button onClick={this.handleUserAuth} type='primary'>用户授权</Button>
         </Card>
         <div className='content-wrap'>
           <ETable
