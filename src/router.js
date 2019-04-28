@@ -27,6 +27,7 @@ import ChartsBar from './pages/charts/bar'
 import ChartsPie from './pages/charts/pie'
 import ChartsLine from './pages/charts/line'
 import Rich from './pages/rich'
+import Permission from './pages/permission'
 
 import Error404 from './pages/error/404'
 
@@ -72,6 +73,7 @@ export default class IRouter extends React.Component{
                   <Route path="/user" component={User}/>
                   <Route path="/bikeMap" component={BikeMap}/>
                   <Route path="/rich" component={Rich}/>
+                  <Route path="/permission" component={Permission}/>
                   <Route component={Error404}/>
                 </Switch>
               </AdminLayout>  

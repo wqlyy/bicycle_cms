@@ -87,7 +87,7 @@ export default class ETable extends React.Component {
                 }
                 if(!item.width){
                     if(item.title.indexOf("时间") > -1 && item.title.indexOf("持续时间") < 0){
-                        item.width = 132
+                        item.width = 180
                     }else if(item.title.indexOf("图片") > -1){
                         item.width = 86
                     }else if(item.title.indexOf("权限") > -1 || item.title.indexOf("负责城市") > -1){
